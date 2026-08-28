@@ -64,7 +64,10 @@ const countObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.6 });
 
-document.querySelectorAll('[data-count]').forEach((item) => countObserver.observe(item));
+document.querySelectorAll('[data-count]').forEach((item) => {
+  if (visualQa) item.textContent = Number(item.dataset.count).toLocaleString('en-US');
+  else countObserver.observe(item);
+});
 
 const processSteps = [...document.querySelectorAll('[data-process-step]')];
 let activeProcess = 0;

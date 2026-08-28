@@ -32,6 +32,7 @@ jobs:
           git rm --ignore-unmatch screenshots/homepage-full.png
           npx --yes playwright@1.55.0 screenshot --viewport-size="1440,936" --wait-for-timeout=2500 http://127.0.0.1:4173 screenshots/homepage-hero.png
           npx --yes playwright@1.55.0 screenshot --viewport-size="1440,936" --wait-for-timeout=2500 --full-page "http://127.0.0.1:4173/?visual-qa=1" screenshots/homepage-full.jpg
+          npx --yes playwright@1.55.0 screenshot --viewport-size="1440,936" --wait-for-timeout=2500 "http://127.0.0.1:4173/?visual-qa=1#how-it-works" screenshots/homepage-process.jpg
       - name: Save screenshots
         run: |
           git config user.name "github-actions[bot]"
