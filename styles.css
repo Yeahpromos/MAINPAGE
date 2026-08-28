@@ -322,6 +322,8 @@ button { font: inherit; }
 
 .reveal { opacity: 0; transform: translateY(42px); transition: opacity 0.85s ease, transform 0.85s cubic-bezier(.2,.8,.2,1); }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+.visual-qa .reveal { transition: none; }
+.visual-qa .metric-track, .visual-qa .partner-track { animation-play-state: paused; }
 
 @media (max-width: 1000px) {
   :root { --shell: min(100% - 40px, 860px); }

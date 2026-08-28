@@ -2,6 +2,9 @@ const header = document.querySelector('[data-header]');
 const progress = document.querySelector('.scroll-progress span');
 const menuToggle = document.querySelector('.menu-toggle');
 const mobileMenu = document.querySelector('.mobile-menu');
+const visualQa = new URLSearchParams(window.location.search).has('visual-qa');
+
+if (visualQa) document.documentElement.classList.add('visual-qa');
 
 const updateScrollUI = () => {
   const y = window.scrollY;
@@ -39,7 +42,8 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach((element, index) => {
   element.style.transitionDelay = `${Math.min(index % 4, 3) * 70}ms`;
-  revealObserver.observe(element);
+  if (visualQa) element.classList.add('visible');
+  else revealObserver.observe(element);
 });
 
 const countObserver = new IntersectionObserver((entries) => {

@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p screenshots
           npx --yes playwright@1.55.0 screenshot --viewport-size="1440,936" --wait-for-timeout=2500 http://127.0.0.1:4173 screenshots/homepage-hero.png
-          npx --yes playwright@1.55.0 screenshot --viewport-size="1440,936" --wait-for-timeout=2500 --full-page http://127.0.0.1:4173 screenshots/homepage-full.png
+          npx --yes playwright@1.55.0 screenshot --viewport-size="1440,936" --wait-for-timeout=2500 --full-page "http://127.0.0.1:4173/?visual-qa=1" screenshots/homepage-full.png
       - name: Save screenshots
         run: |
           git config user.name "github-actions[bot]"
