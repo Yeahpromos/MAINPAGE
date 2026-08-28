@@ -1,0 +1,41 @@
+name: Visual QA
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "screenshots/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx --yes playwright@1.55.0 install --with-deps chromium
+      - name: Start preview
+        run: |
+          npm run dev -- --port 4173 > /tmp/yeahpromos-vite.log 2>&1 &
+          npx --yes wait-on http://127.0.0.1:4173
+      - name: Capture visual references
+        run: |
+          mkdir -p screenshots
+          npx --yes playwright@1.55.0 screenshot --viewport-size="1440,936" --wait-for-timeout=2500 http://127.0.0.1:4173 screenshots/homepage-hero.png
+          npx --yes playwright@1.55.0 screenshot --viewport-size="1440,936" --wait-for-timeout=2500 --full-page http://127.0.0.1:4173 screenshots/homepage-full.png
+      - name: Save screenshots
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add screenshots
+          git diff --cached --quiet && exit 0
+          git commit -m "Add visual QA screenshots / 添加视觉验收截图 [skip ci]"
+          git push
